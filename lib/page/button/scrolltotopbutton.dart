@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 // 返回页面顶部的悬浮按钮
 class ScrollToTopButton extends StatefulWidget {
   final ScrollController controller;
+  final bool checkToShow;
 
-  const ScrollToTopButton({Key? key, required this.controller})
+  const ScrollToTopButton({Key? key, required this.controller,required this.checkToShow})
       : super(key: key);
 
   @override
@@ -12,11 +13,12 @@ class ScrollToTopButton extends StatefulWidget {
 }
 
 class _ScrollToTopButtonState extends State<ScrollToTopButton> {
-  bool _showButton = false;
+  late bool _showButton;
 
   @override
   void initState() {
     super.initState();
+    _showButton = widget.checkToShow;
     widget.controller.addListener(_scrollListener);
   }
 

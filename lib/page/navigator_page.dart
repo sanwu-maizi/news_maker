@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:news_maker/page/function_page/favourite_page.dart';
 import 'package:news_maker/page/model.dart';
-import 'package:news_maker/page/setting_page.dart';
+import 'package:news_maker/page/function_page/setting_page.dart';
+import 'package:news_maker/page/function_page/History_page.dart';
 //import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'function_page/search_page.dart';
 import 'list_page/list_page.dart';
 
+toNavigatorPage(BuildContext context) {
+  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+    return NavigatorPage();
+  }));
+}
 //Theme.of(context).primaryColor
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({Key? key}) : super(key: key);
@@ -56,6 +64,27 @@ class _NavigatorPageState extends State<NavigatorPage>
                             opacity: 0.7,
                             fit: BoxFit.cover,
                             image: AssetImage('images/backimage1.png'))),
+                  ),
+                  ListTile(
+                    title: Text('搜索新闻'),
+                    trailing: Icon(Icons.search),
+                    onTap: () async {
+                      toSearchPage(context);
+                    },
+                  ),
+                  ListTile(
+                    title: Text('历史记录'),
+                    trailing: Icon(Icons.file_present_sharp),
+                    onTap: () async {
+                      toHistoryPage(context);
+                    },
+                  ),
+                  ListTile(
+                    title: Text('我的收藏'),
+                    trailing: Icon(Icons.star),
+                    onTap: () async {
+                      toFavouritePage(context);
+                    },
                   ),
                   ListTile(
                     title: Text('用户反馈'),
@@ -128,24 +157,24 @@ class _NavigatorPageState extends State<NavigatorPage>
 
   List<Widget> buildActions() {
     return [
-      const SizedBox(width: 1),
-      Container(
-        width: MediaQuery.of(context).size.width * 0.5,
-        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-        child: TextField(
-          decoration: InputDecoration(
-            hintText: "搜索",
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            filled: true,
-            fillColor: Colors.grey[300],
-            prefixIcon: const Icon(Icons.search),
-          ),
-        ),
-      ),
-      const SizedBox(width: 1),
+      // const SizedBox(width: 1),
+      // Container(
+      //   width: MediaQuery.of(context).size.width * 0.5,
+      //   padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      //   child: TextField(
+      //     decoration: InputDecoration(
+      //       hintText: "搜索",
+      //       border: OutlineInputBorder(
+      //         borderSide: BorderSide.none,
+      //         borderRadius: BorderRadius.circular(15.0),
+      //       ),
+      //       filled: true,
+      //       fillColor: Colors.grey[300],
+      //       prefixIcon: const Icon(Icons.search),
+      //     ),
+      //   ),
+      // ),
+      // const SizedBox(width: 1),
       PopupMenuButton<String>(
         itemBuilder: _buildItem,
         onSelected: _onSelectItem,

@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:news_maker/page/content_page/content_page.dart';
 import 'package:news_maker/page/list_page/model.dart';
-import 'package:news_maker/page/list_page/scrolltotopbutton.dart';
+import 'package:news_maker/page/button/scrolltotopbutton.dart';
 import 'package:news_maker/page/list_page/entity.dart';
 
 class ListPage extends StatefulWidget {
   final String type;
+  static List<Data> history = [];
   const ListPage({Key? key, required this.type}) : super(key: key);
 
   @override
@@ -78,41 +79,51 @@ class _ListPageState extends State<ListPage>
           return Scaffold(
             body: Stack(children: [
               RefreshIndicator(
-                onRefresh: _refreshData,
-                child: Scrollbar(
-                  child: _list == null
-                      ? const Center(child: CircularProgressIndicator())
-                      : ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.all(0),
-                          controller: _scrollController,
-                          itemCount: _list!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListTile(
-                              title: Text(
-                                _list![index].title!,
-                                softWrap: false,
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(_list![index].date!),
-                                  const Divider(
-                                    color: Colors.black12,
-                                    thickness: 1,
-                                  ),
-                                ],
-                              ),
-                              onTap: () {
-                                toContentPage(
-                                    context, snapshot.data!.data![index].link);
-                              },
-                            );
-                          },
-                          //ScrollToTopButton(controller: _scrollController),
-                        ),
-                  )
-              ),
+                  onRefresh: _refreshData,
+                  child: Scrollbar(
+                    child: _list == null
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            padding: const EdgeInsets.all(0),
+                            controller: _scrollController,
+                            itemCount: _list!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                title: Text(
+                                  _list![index].title!,
+                                  softWrap: false,
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(_list![index].date!),
+                                    const Divider(
+                                      color: Colors.black12,
+                                      thickness: 1,
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  toContentPage(context,
+                                      snapshot.data!.data![index].link);
+                                  if (ListPage.history
+                                      .contains(_list![index])) {
+                                    final int existingIndex =
+                                        ListPage.history.indexOf(_list![index]);
+                                    ListPage.history.removeAt(existingIndex);
+                                    ListPage.history.add(_list![index]);
+                                  } else {
+                                    setState(() {
+                                      ListPage.history.add(_list![index]);
+                                    });
+                                  }
+                                },
+                              );
+                            },
+                            //ScrollToTopButton(controller: _scrollController),
+                          ),
+                  )),
               //CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),),
               // ],
               // ),
@@ -137,7 +148,7 @@ class _ListPageState extends State<ListPage>
               //     ),
               //   )
               // ])
-              ScrollToTopButton(controller: _scrollController),
+              ScrollToTopButton(controller: _scrollController, checkToShow: false,),
             ]),
           );
         } else {
