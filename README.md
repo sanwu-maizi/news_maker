@@ -1,6 +1,6 @@
 # news_maker
 
-A new Flutter project.
+A new Flutter project about getting the news from the web of CUMT.
 
 ## Getting Started
 
