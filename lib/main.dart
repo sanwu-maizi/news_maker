@@ -21,9 +21,11 @@ class MyApp extends StatelessWidget{
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(appBarTheme: AppBarTheme(
-          systemOverlayStyle: overlayStyle
-      )),
+      theme: ThemeData(
+          appBarTheme: AppBarTheme(
+          systemOverlayStyle: overlayStyle),
+        //primarySwatch: Colors.red,
+      ),
       home: const NavigatorPage(),
     );
   }

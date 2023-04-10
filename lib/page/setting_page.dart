@@ -1,7 +1,7 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
-import 'package:news_maker/main.dart';
+import '../main.dart';
 
 toSettingPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
@@ -113,5 +113,6 @@ class SettingPage extends StatelessWidget {
     );
 
     Navigator.pop(context, newColor);
+
   }
 }

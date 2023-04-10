@@ -33,7 +33,7 @@ class _HistoryPageState extends State<HistoryPage> {
         actions: [
           IconButton(
             onPressed: () {
-              // Clear the list
+// Clear the list
               setState(() {
                 ListPage.history.clear();
               });
@@ -81,7 +81,10 @@ class _HistoryPageState extends State<HistoryPage> {
                   );
                 }),
           ),
-          ScrollToTopButton(controller: _scrollController, checkToShow: false,),
+          ScrollToTopButton(
+            controller: _scrollController,
+            checkToShow: false,
+          ),
         ],
       ),
     );

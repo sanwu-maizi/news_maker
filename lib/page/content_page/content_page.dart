@@ -5,22 +5,23 @@ import 'package:news_maker/page/content_page/ui/content_image.dart';
 import 'package:news_maker/page/content_page/ui/content_pdf.dart';
 import 'package:news_maker/page/content_page/ui/content_text.dart';
 
-import '../entity.dart';
 import '../button/scrolltotopbutton.dart';
-import '../button/favButton.dart';
 
+//toContentPage(BuildContext context, String link,ValueNotifier<Color> appBarColor) {
 toContentPage(BuildContext context, String link) {
   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
     return ContentPage(
       link: link,
+      //appBarColor:appBarColor
     );
   }));
 }
 
 class ContentPage extends StatefulWidget {
   final String link;
-  static List<Data> favourite = [];
+  //final ValueNotifier<Color> appBarColor;
 
+  //const ContentPage({Key? key, required this.link,required this.appBarColor}) : super(key: key);
   const ContentPage({Key? key, required this.link}) : super(key: key);
 
   @override
@@ -67,7 +68,10 @@ class _ContentPageState extends State<ContentPage> {
                       },
                     ),
                   ),
-                  ScrollToTopButton(controller: _scrollController, checkToShow: true,),
+                  ScrollToTopButton(
+                    controller: _scrollController,
+                    checkToShow: true,
+                  ),
                   // FavButton(controller: _scrollController,be_liked: (ContentPage.favourite
                   //     .contains(_list![index])), , ),
                 ],

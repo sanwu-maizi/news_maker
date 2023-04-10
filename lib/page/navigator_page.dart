@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:news_maker/page/function_page/favourite_page.dart';
 import 'package:news_maker/page/model.dart';
-import 'package:news_maker/page/function_page/setting_page.dart';
-import 'package:news_maker/page/function_page/History_page.dart';
+import 'package:news_maker/page/function_Page/setting_page.dart';
+import 'package:news_maker/page/function_Page/favourite_page.dart';
 //import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'function_page/search_page.dart';
+import 'package:news_maker/page/function_Page/search_page.dart';
+import 'package:news_maker/page/function_Page/History_page.dart';
+import 'package:news_maker/page/template/my_listtile.dart';
 import 'list_page/list_page.dart';
 
+//Theme.of(context).primaryColor
 toNavigatorPage(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
+  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
     return NavigatorPage();
   }));
 }
-//Theme.of(context).primaryColor
+
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({Key? key}) : super(key: key);
+  static ValueNotifier<Color> backcolor = Colors.yellow as ValueNotifier<Color>;
 
   @override
   State<NavigatorPage> createState() => _NavigatorPageState();
 }
 
 class _NavigatorPageState extends State<NavigatorPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   //,AutomaticKeepAliveClientMixin{
   late final NewsTypeModel _model = NewsTypeModel();
   late final TabController _controller =
       TabController(vsync: this, length: _model.data!.data!.length);
-  late final ValueNotifier<Color> _appBarColor =
+  late final ValueNotifier<Color> appBarColor =
       ValueNotifier(Theme.of(context).primaryColor);
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class _NavigatorPageState extends State<NavigatorPage>
           return Scaffold(
             appBar: AppBar(
               title: const Text("矿大新闻"),
-              backgroundColor: _appBarColor.value,
+              backgroundColor: appBarColor.value,
               actions: buildActions(),
               bottom: TabBar(
                 isScrollable: true,
@@ -51,12 +55,14 @@ class _NavigatorPageState extends State<NavigatorPage>
               ),
             ),
             drawer: Drawer(
+                child: Container(
+              color: appBarColor.value.withOpacity(0.1),
               child: ListView(
                 padding: const EdgeInsets.all(0),
                 children: [
                   UserAccountsDrawerHeader(
                     accountName: Text('麦子'),
-                    accountEmail: Text('abc@qq.com'),
+                    accountEmail: Text('1665534874@qq.com'),
                     currentAccountPicture: CircleAvatar(
                         backgroundImage: AssetImage('images/3.jpg')),
                     decoration: BoxDecoration(
@@ -65,6 +71,7 @@ class _NavigatorPageState extends State<NavigatorPage>
                             fit: BoxFit.cover,
                             image: AssetImage('images/backimage1.png'))),
                   ),
+                  //MyListTile(title: '搜索新闻', icon: Icon(Icons.search), function: toSearchPage(context),),
                   ListTile(
                     title: Text('搜索新闻'),
                     trailing: Icon(Icons.search),
@@ -79,13 +86,13 @@ class _NavigatorPageState extends State<NavigatorPage>
                       toHistoryPage(context);
                     },
                   ),
-                  ListTile(
-                    title: Text('我的收藏'),
-                    trailing: Icon(Icons.star),
-                    onTap: () async {
-                      toFavouritePage(context);
-                    },
-                  ),
+                  // ListTile(
+                  //   title: Text('我的收藏'),
+                  //   trailing: Icon(Icons.star),
+                  //   onTap: () async {
+                  //     toFavouritePage(context);
+                  //   },
+                  // ),
                   ListTile(
                     title: Text('用户反馈'),
                     onTap: () {
@@ -94,7 +101,7 @@ class _NavigatorPageState extends State<NavigatorPage>
                         builder: (BuildContext context) {
                           return AlertDialog(
                             content: const Text(
-                              '如果对该软件有什么建议和改进，可以添加QQ：’1302140648‘或vx：‘y1302140648’提出',
+                              '如果对该软件有什么建议和改进，请添加QQ：’1665534874‘提出',
                               style: TextStyle(fontSize: 20),
                             ),
                             actions: [
@@ -118,7 +125,10 @@ class _NavigatorPageState extends State<NavigatorPage>
                     title: Text('系统设置'),
                     onTap: () async {
                       //toSettingPage(context);
-                      final newColor = await toSettingPage(context);
+                      //final newColor = await toSettingPage(context);
+                      setState(() async {
+                        final newColor = await toSettingPage(context);
+                      });
                     },
                     trailing: Icon(Icons.settings),
                   ),
@@ -135,11 +145,11 @@ class _NavigatorPageState extends State<NavigatorPage>
                   ),
                 ],
               ),
-            ),
+            )),
             body: TabBarView(
               controller: _controller,
               children: _model.data!.data!
-                  .map((e) => ListPage(type: e.type!))
+                  .map((e) => ListPage(type: e.type!, appBarColor: appBarColor))
                   .toList(),
             ),
           );
@@ -213,11 +223,15 @@ class _NavigatorPageState extends State<NavigatorPage>
       if (newColor != null) {
         // update _appBarColor value
         setState(() {
-          _appBarColor.value = newColor;
+          appBarColor.value = newColor;
         });
       }
     }
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class Right2LeftRouter<T> extends PageRouteBuilder<T> {

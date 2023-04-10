@@ -7,8 +7,9 @@ import '../content_page/content_page.dart';
 class FavButton extends StatefulWidget {
   final ScrollController controller;
   final bool be_liked;
+  final Function function;
 
-  const FavButton({Key? key, required this.controller,required this.be_liked})
+  const FavButton({Key? key, required this.controller,required this.be_liked,required this.function})
       : super(key: key);
 
   @override
@@ -18,11 +19,13 @@ class FavButton extends StatefulWidget {
 class _FavButtonState extends State<FavButton> {
   bool _showButton = true;
   late bool _be_liked;
+  late Function _function;
 
   @override
   void initState() {
     super.initState();
     _be_liked=widget.be_liked;
+    _function=widget.function;
     widget.controller.addListener(_scrollListener);
   }
 
@@ -54,10 +57,10 @@ class _FavButtonState extends State<FavButton> {
               mini: true,
               tooltip: '收藏',
               onPressed: () {
-                // if (ContentPage.favourite
-                //     .contains(_list![index])) {
+                _function;
+                // if (this._be_liked) {
                 //   final int existingIndex =
-                //   ContentPage.favourite.indexOf(_list![index]);
+                //   ContentPage.favourite.indexOf(snapshot);
                 //   ContentPage.favourite.removeAt(existingIndex);
                 //   ContentPage.favourite.add(_list![index]);
                 // } else {
